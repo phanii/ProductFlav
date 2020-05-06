@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        applicationId "com.product.flav"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        flavorDimensions "default"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        beta {
+            storeFile file('C:\\Development\\AndroidStudioProjects\\keystores\\product_flav_beta_keystore.jks')
+            storePassword 'KeyStore'
+            keyPassword 'KeyStore'
+            keyAlias = 'Beta'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            buildConfigField "String", "TYPE", '"Debug release"'
+            resValue "string", "my_name", "Debug"
+        }
+        beta{
+            signingConfig signingConfigs.beta
+            applicationIdSuffix ".beta"
+            versionNameSuffix "-beta"
+            buildConfigField "String", "TYPE", '"Beta Release"'
+            resValue "string", "my_name", "Beta"
+        }
+    }
+    productFlavors{
+        stagging{
+            applicationId "com.product.flav.free"
+            manifestPlaceholders =[appLabel:"Stagging Flav"]
+        }
+        live{
+            applicationId "com.product.flav.paid"
+            manifestPlaceholders =[appLabel:"Live Flav"]
+
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
