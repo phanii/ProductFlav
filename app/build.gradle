@@ -29,13 +29,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             buildConfigField "String", "TYPE", '"Debug release"'
             resValue "string", "my_name", "Debug"
         }
-        beta{
+        beta {
             signingConfig signingConfigs.beta
             applicationIdSuffix ".beta"
             versionNameSuffix "-beta"
@@ -43,17 +43,30 @@ android {
             resValue "string", "my_name", "Beta"
         }
     }
-    productFlavors{
-        stagging{
-            applicationId "com.product.flav.free"
-            manifestPlaceholders =[appLabel:"Stagging Flav"]
+    productFlavors {
+        stagging {
+            applicationId "com.product.flav.stagging"
+            manifestPlaceholders = [appLabel: "Stagging"]
         }
-        live{
-            applicationId "com.product.flav.paid"
-            manifestPlaceholders =[appLabel:"Live Flav"]
+        live {
+            applicationId "com.product.flav.live"
+            manifestPlaceholders = [appLabel: "Live"]
 
         }
     }
+    sourceSets
+            {
+                stagging {
+                    manifest.srcFile 'src/stagging/AndroidManifest.xml'
+                    java.srcDirs = ['src/stagging/java',]
+                    resources.srcDirs = ['src/stagging/resources',]
+                }
+                live {
+                    manifest.srcFile 'src/live/AndroidManifest.xml'
+                    java.srcDirs = ['src/live/java',]
+                    resources.srcDirs = ['src/live/resources',]
+                }
+            }
 
 }
 
